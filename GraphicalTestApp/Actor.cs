@@ -96,11 +96,26 @@ namespace GraphicalTestApp
         public void RemoveChild(Actor child)
         {
             //## Implement RemoveChild(Actor) ##//
+            bool isMyChild = _children.Remove(child);
+            _localTransform = _globalTransform;
         }
 
         public void UpdateTransform()
         {
             //## Implment UpdateTransform() ##//
+            if (Parent != null)
+            {
+                _globalTransform = Parent._globalTrasnsform * _localTransform;
+            }
+            else
+            {
+                _globalTransform = _localTransform;
+            }
+
+            foreach (Actor child in _children)
+            {
+                child.UpdateTransform();
+            }
         }
 
         //Call the OnStart events of the Actor and its children
